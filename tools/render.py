@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Render THE WORLD TODAY — a one-page broadsheet summing up the world news
-of Monday 23 November 2026 — as a 680x1024 PNG.
+of Tuesday 24 November 2026 — as a 680x1024 PNG.
 
 Drawn at 2x (1360x2048) with Pillow and downscaled with LANCZOS so the
 small type stays crisp. Layout: centred masthead and dateline, a lead story
 with deck, photograph and two-column body, two stories side by side with a
-vertical divider, a briefs strip, and a sources footer. All photographs are
-freely licensed file photos, credited in the footer; none is from 23 November
-itself. Every story on the page is an event of 23 November 2026.
+vertical divider (the markets story carries a deal-terms box, the Nepal
+story a photograph), a briefs strip, and a sources footer. All photographs
+are freely licensed file photos, credited in the footer; none is from 24
+November itself. Every story on the page is an event of 24 November 2026:
+each was checked against primary reporting the same day.
 
 Run:  python3 tools/render.py   (writes entry.png next to main.py)
 """
@@ -90,73 +92,81 @@ def tracked(draw, x, y, text, fnt, fill, tracking=0):
 
 
 # ---------------------------------------------------------------- stories
-# Final set (afternoon, 23 Nov). Every event below happened on 23 Nov 2026
-# and was checked against primary reporting the same day: the Wellington
-# Test ended in a draw, the Nepal–Modi talks were held at Hyderabad House,
-# Tata Steel announced its APL Apollo deal, and Bitcoin held above $60,900.
+# Final set (evening, 24 Nov). Every event below happened on 24 Nov 2026
+# and was checked against primary reporting the same day: the Gaza strikes
+# and the security chief's death were reported by Reuters on Tuesday 24 Nov;
+# Sanofi announced its Insmed deal on Tuesday 24 Nov (company release,
+# Reuters, WSJ); the Nepal quake struck at 07:17 local time on Tuesday
+# 24 Nov (Nepal monitoring centre); the Shenzhou-24 crew was unveiled at
+# Jiuquan on Tuesday 24 Nov; the Banten toll reached 26 on Tuesday 24 Nov;
+# Kyiv announced the DELTA access for Germany on Tuesday 24 Nov.
 LEAD = {
-    "kicker": "NEPAL · NEW DELHI",
-    "headline": "SHAH AND MODI HOLD DELHI TALKS",
-    "deck": ("Nepal's prime minister holds delegation-level talks with "
-             "Narendra Modi in New Delhi, seeking a $2bn package to rebuild "
-             "after August's floods and a long-term vision for the "
-             "partnership."),
-    "photo": os.path.join(ROOT, "assets", "india-gate.jpg"),
-    "photo_h": 104,
-    "photo_focus": 0.0,
-    "caption": "India Gate, New Delhi. (File photo: Larry Johnson, CC BY)",
-    "left": ("Shah, who took office in March, arrived in New Delhi on Sunday "
-             "for a two-day state visit, his first bilateral trip abroad. On "
-             "Monday he received a ceremonial welcome at Rashtrapati Bhavan "
-             "and called on President Droupadi Murmu before the talks."),
-    "right": ("The two leaders agreed to issue a joint vision document, "
-              "\"Samriddha Nepal, Samunnat Bharat\" — Prosperous Nepal, "
-              "Developed India — and flag off the Sarayu–Kamala Express to "
-              "Janakpur. Kathmandu sought a $2bn package, about $1bn of it "
-              "in grants."),
+    "kicker": "GAZA · KHAN YOUNIS",
+    "headline": "ISRAELI STRIKES KILL SIX IN GAZA",
+    "deck": ("Israeli airstrikes killed at least six Palestinians across "
+             "Gaza on Tuesday, and Gaza's interior ministry said its "
+             "internal security chief had been killed."),
+    "photo": os.path.join(ROOT, "assets", "gaza-rubble.jpg"),
+    "photo_h": 96,
+    "photo_focus": 0.5,
+    "caption": "Rubble in Gaza. (File photo: Felton Davis, public domain)",
+    "left": ("Three people were killed in a strike on a police post in "
+             "Khan Younis in southern Gaza, two of them police officers, "
+             "medics said; five more were wounded. Later on Tuesday a "
+             "second strike near the Netzarim corridor killed three more."),
+    "right": ("Gaza's interior ministry said on Tuesday that an Israeli "
+              "strike had killed its internal security chief, Naim "
+              "Mohammed Abu Nahl. The strikes came despite a US-backed "
+              "ceasefire in effect since October, and as health officials "
+              "declared a territory-wide meningitis alert."),
 }
 
 MIDDLE_LEFT = {
-    "kicker": "CRICKET · WELLINGTON",
-    "headline": "NEW ZEALAND BAT OUT THE DAY TO SAVE THE TEST",
-    "photo": os.path.join(ROOT, "assets", "basin-reserve.jpg"),
-    "photo_h": 72,
-    "caption": "Basin Reserve, Wellington, 1981. (File photo: Archives NZ, CC BY)",
-    "body": ("Daryl Mitchell, 49 not out, and Glenn Phillips, 26 not out, "
-             "batted out the final session as New Zealand finished 239 for 5 "
-             "to draw the first Test. India, who declared at 720 for 9, took "
-             "three wickets on the final day but fell five short. The draw "
-             "dents India's World Test Championship hopes."),
+    "kicker": "MARKETS · SANOFI",
+    "headline": "SANOFI TO BUY INSMED IN $41BN DEAL",
+    "body": ("Sanofi said on Tuesday it will buy US biotech Insmed for "
+             "$175 a share in cash, the biggest biotech deal in nearly "
+             "three years. The French drugmaker gains two respiratory "
+             "medicines, Brinsupri and Arikayce, and a late-stage pipeline "
+             "as it prepares for patent expiries on its own blockbusters."),
+    "stats": ["Price: $175 a share, $41.0bn in cash",
+              "Premium: 46% to the 18 Nov close",
+              "Closes: first half of 2027"],
 }
 
 MIDDLE_RIGHT = {
-    "kicker": "MARKETS · TATA STEEL",
-    "headline": "TATA STEEL TO TAKE CONTROL OF APL APOLLO",
-    "body": ("Tata Steel said on Monday it will buy a 26.38% promoter stake "
-             "in APL Apollo Tubes for Rs 15,510 crore and offer to buy a "
-             "further 26% — a holding that could reach 52.38%. The first "
-             "9.91% changed hands in a Rs 5,825 crore block deal today."),
-    "stats": ["Promoter stake: 26.38% at Rs 2,100 a share",
-              "Open offer: 26% at Rs 2,301.40 a share",
-              "Control could reach 52.38%"],
+    "kicker": "NEPAL · TAPLEJUNG",
+    "headline": "QUAKE SHAKES NEPAL'S FAR EAST",
+    "photo": os.path.join(ROOT, "assets", "annapurna.jpg"),
+    "photo_h": 64,
+    "photo_focus": 0.75,
+    "caption": "The Annapurna range, Nepal. (File photo: dave.see, CC BY)",
+    "body": ("A magnitude 5.6 earthquake struck near Olangchung Gola in "
+             "Taplejung district at 07:17 on Tuesday, Nepal's monitoring "
+             "centre said, close to the border with Tibet. Tremors were "
+             "felt in India, Bhutan and Bangladesh; no casualties or major "
+             "damage had been reported."),
 }
 
 BRIEFS = [
-    ("NEW DELHI", "Shah flies home this evening, departing New Delhi at 18:35 "
-                  "after the talks and the official luncheon."),
-    ("CHRISTCHURCH", "The second and final Test of the series starts on "
-                      "Friday at Hagley Oval, Christchurch."),
-    ("MARKETS", "Bitcoin held above $60,900, a second day of gains after "
-                "the weekend's two-year low near $55,130."),
+    ("JIUQUAN", "China unveiled the Shenzhou-24 crew on Tuesday: Pakistani "
+                "Muhammad Zeeshan Ali, 40, will be the first foreign "
+                "astronaut aboard Tiangong; launch is Wednesday."),
+    ("SERANG", "The toll from the 21 Nov candy-factory fire in Banten rose "
+               "to 26 on Tuesday, police said; 28 workers are still "
+               "missing and a criminal inquiry has been opened."),
+    ("BERLIN", "Ukraine said on Tuesday that Germany will become the first "
+               "foreign country to use its DELTA battlefield system; Kyiv "
+               "will share no combat data."),
 ]
 
-FOOT_SOURCES = ("All events on this page happened on Monday 23 November 2026. "
-                "Sources: Ministry of External Affairs (India); Nepal Ministry "
-                "of Foreign Affairs; IANS; ESPN; Moneycontrol; CNBC-TV18; "
-                "Reuters.")
-FOOT_PHOTOS = ("Photos are freely licensed file photos, not from today: India "
-               "Gate — Larry Johnson, CC BY; Basin Reserve — Archives New "
-               "Zealand, CC BY.")
+FOOT_SOURCES = ("All events on this page happened on Tuesday 24 November "
+                "2026. Sources: Reuters; Sanofi; Nepal National Earthquake "
+                "Monitoring and Research Centre; Xinhua; AP; Ukrinform; "
+                "Banten Police.")
+FOOT_PHOTOS = ("Photos are freely licensed file photos, not from today: "
+               "Gaza rubble — Felton Davis, public domain; Annapurna — "
+               "dave.see, CC BY.")
 
 
 def main():
@@ -172,12 +182,12 @@ def main():
     y += int(48 * SCALE * 1.25)
 
     f_date = font(SANS_B, 15)
-    t = "MONDAY, 23 NOVEMBER 2026"
+    t = "TUESDAY, 24 NOVEMBER 2026"
     d.text(((W - d.textlength(t, font=f_date)) / 2, y), t, font=f_date, fill=INK)
     y += int(15 * SCALE * 1.6)
 
     f_sub = font(SANS, 11)
-    t = "ONE DAY  ·  ONE PAGE  ·  No. 327"
+    t = "ONE DAY  ·  ONE PAGE  ·  No. 328"
     d.text(((W - d.textlength(t, font=f_sub)) / 2, y), t, font=f_sub, fill=GREY)
     y += int(11 * SCALE * 1.6) + 6 * SCALE
 
@@ -238,7 +248,8 @@ def main():
         if "photo" in s:
             im = Image.open(s["photo"]).convert("RGB")
             ph2 = s["photo_h"] * SCALE
-            img.paste(crop_cover(im, col_w, ph2), (cx, yy))
+            img.paste(crop_cover(im, col_w, ph2,
+                                 focus=s.get("photo_focus", 0.5)), (cx, yy))
             yy += ph2 + 4 * SCALE
             d.text((cx, yy), s["caption"], font=f_cap, fill=GREY)
             yy += int(11 * SCALE * 1.7) + 2 * SCALE
@@ -300,7 +311,7 @@ def main():
                    f_foot, fill=GREY, leading=int(8 * SCALE * 1.55))
 
     out = img.resize((680, 1024), Image.LANCZOS)
-    out.save(os.path.join(ROOT, "entry.png"), "PNG")
+    out.save(os.path.join(ROOT, "entry.png"), "PNG", optimize=True)
     print("wrote entry.png", out.size,
           os.path.getsize(os.path.join(ROOT, "entry.png")), "bytes,",
           "content ends at y =", y // SCALE, "(logical)")
